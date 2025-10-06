@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to add task (accepts optional taskText when loading from storage)
     function addTask(taskText) {
         // If called from UI, taskText will be undefined
-        if (typeof taskText === 'undefined') {
+        const calledFromUI = (typeof taskText === 'undefined');
+        if (calledFromUI) {
             taskText = taskInput.value.trim();
             if (taskText === '') {
                 alert('Please enter a task');
@@ -38,11 +39,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // Persist
         tasks.push(taskText);
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        // Clear input only when called from UI
-        if (taskInput && taskInput.value) taskInput.value = '';
-        renderTasks();
+
+        // Create list item
+        const li = document.createElement('li');
+        li.textContent = taskText;
+
+        // Create remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.className = 'remove-btn';
+
+        // When clicked, remove the li from the DOM and update storage
+        removeBtn.onclick = function() {
+            // Remove from in-memory array (remove first match)
+            const idx = tasks.indexOf(taskText);
+            if (idx > -1) {
+                tasks.splice(idx, 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            // Re-render the list to keep indexes consistent
+            renderTasks();
+        };
+
+        // Append and clear input if from UI
+        li.appendChild(removeBtn);
+        taskList.appendChild(li);
+        if (calledFromUI) taskInput.value = '';
     }
 
     // Function to remove task
