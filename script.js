@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             li.textContent = task;
             const removeBtn = document.createElement('button');
             removeBtn.textContent = 'Remove';
-            removeBtn.className = 'remove-btn';
+            removeBtn.classList.add('remove-btn');
             removeBtn.addEventListener('click', () => removeTask(index));
             li.appendChild(removeBtn);
             taskList.appendChild(li);
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create remove button
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
-        removeBtn.className = 'remove-btn';
+            removeBtn.classList.add('remove-btn');
 
         // When clicked, remove the li from the DOM and update storage
         removeBtn.onclick = function() {
