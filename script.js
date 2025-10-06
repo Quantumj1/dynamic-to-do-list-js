@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    loadTask();
+    loadTasks();
     const taskInput = document.getElementById('task-input');
-    const addTaskBtn = document.getElementById('add-task-btn');
+    const addButton = document.getElementById('add-task-btn');
     const taskList = document.getElementById('task-list');
 
     // Load tasks from localStorage
@@ -39,10 +39,26 @@ function addTask(taskText, save = true) {
     function addTask() {
         const taskText = taskInput.value.trim();
         if (taskText) {
-            tasks.push(taskText);
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            // Create list item
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            // Create remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remove';
+            removeBtn.className = 'remove-btn';
+
+            // Remove the li from the taskList when clicked
+            removeBtn.onclick = function() {
+                taskList.removeChild(li);
+            };
+
+            // Append button and li to the list
+            li.appendChild(removeBtn);
+            taskList.appendChild(li);
+
+            // Clear input
             taskInput.value = '';
-            renderTasks();
         }
     }
 
@@ -54,12 +70,15 @@ function addTask(taskText, save = true) {
     }
 
     // Event listeners
-    addTaskBtn.addEventListener('click', addTask);
+    addButton.addEventListener('click', addTask);
     taskInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             addTask();
         }
     });
+
+    // Also invoke addTask on DOMContentLoaded (outside the addTask function)
+    addTask();
 
     // Initial render
     renderTasks();
