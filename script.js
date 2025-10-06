@@ -54,14 +54,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // When clicked, remove the li from the DOM and update storage
         removeBtn.onclick = function() {
-            // Remove from in-memory array (remove first match)
+            // Remove the li element from the taskList
+            if (li.parentNode === taskList) {
+                taskList.removeChild(li);
+            }
+
+            // Also remove from in-memory array (first match) and update localStorage
             const idx = tasks.indexOf(taskText);
             if (idx > -1) {
                 tasks.splice(idx, 1);
                 localStorage.setItem('tasks', JSON.stringify(tasks));
             }
-            // Re-render the list to keep indexes consistent
-            renderTasks();
         };
 
         // Append and clear input if from UI
