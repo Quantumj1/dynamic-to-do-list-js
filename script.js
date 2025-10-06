@@ -37,29 +37,35 @@ function addTask(taskText, save = true) {
 
     // Function to add task
     function addTask() {
+        // Retrieve and trim input
         const taskText = taskInput.value.trim();
-        if (taskText) {
-            // Create list item
-            const li = document.createElement('li');
-            li.textContent = taskText;
 
-            // Create remove button
-            const removeBtn = document.createElement('button');
-            removeBtn.textContent = 'Remove';
-            removeBtn.className = 'remove-btn';
-
-            // Remove the li from the taskList when clicked
-            removeBtn.onclick = function() {
-                taskList.removeChild(li);
-            };
-
-            // Append button and li to the list
-            li.appendChild(removeBtn);
-            taskList.appendChild(li);
-
-            // Clear input
-            taskInput.value = '';
+        // If empty, alert the user
+        if (taskText === '') {
+            alert('Please enter a task');
+            return;
         }
+
+        // Create list item
+        const li = document.createElement('li');
+        li.textContent = taskText;
+
+        // Create remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.className = 'remove-btn';
+
+        // Remove the li from the taskList when clicked
+        removeBtn.onclick = function() {
+            taskList.removeChild(li);
+        };
+
+        // Append button and li to the list
+        li.appendChild(removeBtn);
+        taskList.appendChild(li);
+
+        // Clear input
+        taskInput.value = '';
     }
 
     // Function to remove task
